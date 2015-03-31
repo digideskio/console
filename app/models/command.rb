@@ -66,6 +66,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).post(attrs)
+    pretty(flatten(pos(filter(object))))
   end
 
   # TODO fix omise-ruby to allow extra attrs in Omise::Resource#get
@@ -82,6 +83,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).patch(attrs)
+    pretty(flatten(pos(filter(object))))
   end
 
   def delete(argv)
@@ -89,6 +91,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).delete(attrs)
+    pretty(flatten(pos(filter(object))))
   end
 
   private
