@@ -1,15 +1,15 @@
 class ConsoleController < ApplicationController
-  before_action :validate_skey
+  before_action :user_required
 
   def show
   end
 
-  def command
+  def update
     argv = (params[:command] || "").shellsplit
     command_name = argv.shift
 
     options = Command::Options.parse(argv)
-    command = Command.new(skey, options)
+    command = Command.new(user, options)
 
     if command.respond_to?(command_name)
       result = command.send(command_name, argv)
@@ -23,22 +23,33 @@ class ConsoleController < ApplicationController
 
   private
 
-  def validate_skey
-    return if params[:skey].blank?
+  def user_required
+    valid, notice = validate_user(params[:u])
 
-    if params[:skey].start_with?("skey_test_")
-      redirect_to root_url(skey: skey.split(?_).last)
-      return
+    flash.now.notice = notice if notice
+
+    if request.xhr? && !valid
+      render plain: ERB::Util.html_escape(notice), status: :bad_request
+    elsif !valid
+      render :login
     end
 
-    if params[:skey].start_with?("skey_")
-      flash.notice = "please use a test secret key."
-      redirect_to root_url
-      return
+    @user = params[:u]
+  end
+
+  def validate_user(user)
+    if user.blank?
+      [false, nil]
+    elsif user.start_with?("skey_test_")
+      [true, "[login] #{user}"]
+    elsif user.start_with?("skey_")
+      [false, "[logout] live key detected."]
+    else
+      [false, "[logout] invalid secret key."]
     end
   end
 
-  def skey
-    "skey_test_#{params[:skey]}"
+  def user
+    params[:u]
   end
 end

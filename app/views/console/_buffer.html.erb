@@ -1,0 +1,6 @@
+<div id="buffer">
+  <% if params[:l] == "1" %>
+    <%= render "console/notice" if flash.notice %>
+    <%= render "console/help" if @user %>
+  <% end %>
+</div>

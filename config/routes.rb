@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  post "/", to: 'console#command', as: :command
+  post "/", to: 'console#update'
   root to: 'console#show'
 end

@@ -1,0 +1,10 @@
+<%= form_tag root_path, method: :get do %>
+  <div>
+    enter your test secret key:<br>
+    <%= hidden_field_tag :l, 1 %>
+    <span>&gt;&gt;</span> <%= text_field_tag :u, params[:u], autocomplete: "off", id: "command" %>
+    <br><br>
+    <%= button_tag "[OK]" %>
+    <%= link_to "[CANCEL]", "https://www.omise.co/" %>
+  </div>
+<% end %>
