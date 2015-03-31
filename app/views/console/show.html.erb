@@ -1,0 +1,31 @@
+<% if params[:skey] %>
+  <div id="buffer">
+<pre><%= Command::Options.parser %>
+notice:
+    all queries will be made using this key: skey_test_<%= params[:skey] %>
+
+</pre>
+  </div>
+
+  <%= form_tag command_path, remote: true do %>
+    <div>
+      <%= hidden_field_tag :skey, params[:skey] %>
+      <span id="prompt">omise $</span> <%= text_field_tag :command, nil, autocomplete: "off" %>
+    </div>
+  <% end %>
+<% else %>
+  <% if flash.notice.present? %>
+    <pre><%= flash.notice %></pre>
+  <% end %>
+  <%= form_tag command_path, method: :get do %>
+    <div>
+      enter your secret key:
+      <br>
+      <span>&gt;&gt;</span> <%= text_field_tag :skey, nil, autocomplete: "off", id: "command" %>
+      <br><br>
+      <%= button_tag "[OK]" %>
+      <%= link_to "[CANCEL]", "https://www.omise.co/" %>
+    </div>
+  <% end %>
+</pre>
+<% end %>

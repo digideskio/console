@@ -1,0 +1,1 @@
+Omise.api_key = ""

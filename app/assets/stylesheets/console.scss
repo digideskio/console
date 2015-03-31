@@ -1,0 +1,75 @@
+$blue: #1bafe0;
+$green: mix(white, #74c418, 20%);
+$red: mix(white, #e01b1b, 20%);
+$background: mix(black, white, 90%);
+$foreground: mix(white, black, 90%);
+
+body {
+  margin: 0;
+  padding: 24px 32px;
+  background: $background;
+  color: $foreground;
+  font-family: "Inconsolata", monospace;
+  font-size: 1em;
+  line-height: 1.4em;
+}
+
+input#skey, input#command {
+  background: $background;
+  color: $foreground;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-family: "Inconsolata", monospace;
+  font-size: 1em;
+  line-height: 1.4em;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input#skey {
+  width: 320px;
+}
+
+input#command {
+  width: 80%;
+}
+
+pre {
+  width: 90%;
+  background: $background;
+  color: $foreground;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-family: "Inconsolata", monospace;
+  font-size: 1em;
+  line-height: 1.4em;
+}
+
+#prompt, .prompt {
+  color: $blue;
+
+  &.success { color: $green; }
+  &.error { color: $red; }
+}
+
+button, a[href] {
+  display: inline-block;
+  line-height: 1.4em;
+  padding: 0 .2em;
+  border: 0;
+  background: $background;
+  color: $foreground;
+  font-family: "Inconsolata", monospace;
+  font-size: 1em;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    background: $foreground;
+    color: $background;
+  }
+}
