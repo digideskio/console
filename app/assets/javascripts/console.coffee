@@ -8,6 +8,27 @@ $(document).on "ready", ->
   historyPosition = -1
   savedCommand = ""
 
+  fn = {}
+
+  fn.createCardToken = (key, name, number, expMonth, expYear, sc) ->
+    Omise.setPublicKey(key)
+
+    card =
+      name: name,
+      number: number,
+      expiration_month: expMonth,
+      expiration_year: expYear,
+      security_code: sc
+
+    node = $("<pre>requesting: ...</pre>")
+    appendToBuffer(node)
+
+    Omise.createToken "card", card, (statusCode, response) ->
+      if response["object"] is "token"
+        node.html("requesting: " + response["id"])
+      else
+        node.html("requesting: [#{response.code}] #{response.message}")
+
   appendToBuffer = (content) ->
     buffer.append(content)
 
@@ -94,7 +115,12 @@ $(document).on "ready", ->
 
   $(document).on "ajax:success", (event, data, status, xhr) ->
     setPromptStatus("success")
-    appendToBuffer("<pre>#{data}</pre>")
+    if data.slice(0,3) is "#!/"
+      argv = data.slice(3,-1).split("|")
+      name = argv.shift()
+      fn[name].apply(undefined, argv)
+    else
+      appendToBuffer("<pre>#{data}</pre>")
     enableCommand()
 
   $(document).on "ajax:error", (event, xhr, status, error) ->

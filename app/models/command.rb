@@ -94,6 +94,18 @@ the following commands are available:
     pretty(flatten(pos(filter(object))))
   end
 
+  def token(argv)
+    subcommand = argv.shift
+    case subcommand
+    when "create-card" then create_card_token(argv)
+    else
+    end
+  end
+
+  def create_card_token(argv)
+    "#!/createCardToken|#{argv.join(?|)}"
+  end
+
   private
 
   attr_reader :key
