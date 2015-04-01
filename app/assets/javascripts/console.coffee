@@ -42,8 +42,10 @@ $(document).on "ready", ->
     position = command.val().length
     element = command.get(0)
     if element.setSelectionRange is undefined
+      setPromptStatus("success")
       command.val(element.value)
     else
+      setPromptStatus("error")
       element.setSelectionRange(position, position)
 
   loadCommand = ->
