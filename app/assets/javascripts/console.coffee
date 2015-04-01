@@ -25,8 +25,10 @@ $(document).on "ready", ->
 
     Omise.createToken "card", card, (statusCode, response) ->
       if response["object"] is "token"
+        setPromptStatus("success")
         node.html("requesting: " + response["id"])
       else
+        setPromptStatus("error")
         node.html("requesting: [#{response.code}] #{response.message}")
 
   appendToBuffer = (content) ->
@@ -42,10 +44,8 @@ $(document).on "ready", ->
     position = command.val().length
     element = command.get(0)
     if element.setSelectionRange is undefined
-      setPromptStatus("success")
       command.val(element.value)
     else
-      setPromptStatus("error")
       element.setSelectionRange(position, position)
 
   loadCommand = ->
@@ -77,7 +77,7 @@ $(document).on "ready", ->
     command.focus()
 
   setPromptStatus = (status) ->
-    buffer.children().last().find(".prompt").addClass(status)
+    buffer.children().find(".prompt").last().addClass(status)
 
   command.focus()
 
