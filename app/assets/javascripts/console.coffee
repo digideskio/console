@@ -10,7 +10,7 @@ $(document).on "ready", ->
 
   fn = {}
 
-  fn.createCardToken = (key, name, number, expMonth, expYear, sc) ->
+  fn["token-create-card"] = (key, name, number, expMonth, expYear, sc) ->
     Omise.setPublicKey(key)
 
     card =
@@ -109,18 +109,25 @@ $(document).on "ready", ->
 
     false
 
+  command.bind "keydown", "return", ->
+    execPattern = new RegExp("^exec ([a-zA-Z1-9-]*)[(](.*)?[)]")
+    if execPattern.test(command.val())
+      execCommand = execPattern.exec(command.val())
+      name = execCommand[1]
+      argv = execCommand[2].split(new RegExp("[ ]?,[ ]?"))
+      appendCommandToBuffer()
+      fn[name].apply(undefined, argv)
+      false
+    else
+      true
+
   $(document).on "ajax:send", (xhr) ->
     appendCommandToBuffer()
     disableCommand()
 
   $(document).on "ajax:success", (event, data, status, xhr) ->
     setPromptStatus("success")
-    if data.slice(0,3) is "#!/"
-      argv = data.slice(3,-1).split("|")
-      name = argv.shift()
-      fn[name].apply(undefined, argv)
-    else
-      appendToBuffer("<pre>#{data}</pre>")
+    appendToBuffer("<pre>#{data}</pre>")
     enableCommand()
 
   $(document).on "ajax:error", (event, xhr, status, error) ->

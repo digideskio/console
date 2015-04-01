@@ -11,6 +11,12 @@ class ConsoleController < ApplicationController
     options = Command::Options.parse(argv)
     command = Command.new(user, options)
 
+    if command_name.nil?
+      result = command.help(argv)
+      render plain: ERB::Util.html_escape(result)
+      return
+    end
+
     if command.respond_to?(command_name)
       result = command.send(command_name, argv)
       render plain: ERB::Util.html_escape(result)

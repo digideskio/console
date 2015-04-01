@@ -19,11 +19,12 @@ class Command
 omise console
 
 the following commands are available:
-    display this screen:   help
-    create an object:      post   /path [key=value,...] [options]
-    retrieve an object:    get    /path [key=value,...] [options]
-    update an object:      patch  /path [key=value,...] [options]
-    destroy and object:    delete /path [key=value,...] [options]
+    display this screen:     help
+    create an object:        post   /path [key=value,...] [options]
+    retrieve an object:      get    /path [key=value,...] [options]
+    update an object:        patch  /path [key=value,...] [options]
+    destroy and object:      delete /path [key=value,...] [options]
+    execute a local command: exec local-command(arg, ...)
         BANNER
 
         p.separator ""
@@ -94,16 +95,14 @@ the following commands are available:
     pretty(flatten(pos(filter(object))))
   end
 
-  def token(argv)
-    subcommand = argv.shift
-    case subcommand
-    when "create-card" then create_card_token(argv)
-    else
-    end
-  end
+  def exec(argv)
+<<-BANNER
+Usage: exec local-command([arg, ...])
 
-  def create_card_token(argv)
-    "#!/createCardToken|#{argv.join(?|)}"
+    the following commands are available:
+        create a card token: exec token-create-card(pkey, name, number,
+          expiration-month, expiration-year, security-code)
+BANNER
   end
 
   private
