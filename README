@@ -1,0 +1,18 @@
+omise console
+
+the following commands are available:
+    display this screen:     help
+    create an object:        post   /path [key=value,...] [options]
+    retrieve an object:      get    /path [key=value,...] [options]
+    update an object:        patch  /path [key=value,...] [options]
+    destroy and object:      delete /path [key=value,...] [options]
+    execute a local command: exec local-command(arg, ...)
+
+common options:
+    -f, --flat                       flatten the list and/or object(s)
+    -k, --keys KEYS                  extract KEYS from the list and/or object(s)
+        --first                      return the first element of the list
+        --last                       return the last element of the list
+    -i INDEX                         take the element at position INDEX of the list (0 based)
+    -m, --money KEY                  converts KEY to money
+
