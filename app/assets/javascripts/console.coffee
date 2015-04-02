@@ -20,16 +20,16 @@ $(document).on "ready", ->
       expiration_year: expYear,
       security_code: sc
 
-    node = $("<pre>requesting: ...</pre>")
+    node = $("<pre>requesting...</pre>")
     appendToBuffer(node)
 
     Omise.createToken "card", card, (statusCode, response) ->
       if response["object"] is "token"
         setPromptStatus("success")
-        node.html("requesting: " + response["id"])
+        node.html(response["id"])
       else
         setPromptStatus("error")
-        node.html("requesting: [#{response.code}] #{response.message}")
+        node.html("#{response.code}: #{response.message}")
 
   appendToBuffer = (content) ->
     buffer.append(content)
