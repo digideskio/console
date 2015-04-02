@@ -4,7 +4,8 @@ class Command
       keys: [],
       data: {},
       flat: false,
-      position: nil
+      position: nil,
+      amount_column: nil
     }
 
     def self.parse(argv = {})
@@ -49,6 +50,10 @@ the following commands are available:
         p.on("-i INDEX", Integer, "take the element at position INDEX of the list (0 based)") do |index|
           options[:position] = index
         end
+
+        p.on("-m", "--money KEY", "converts KEY to money") do |key|
+          options[:amount_column] = key
+        end
       end
     end
   end
@@ -67,7 +72,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).post(attrs)
-    pretty(flatten(pos(filter(object))))
+    pretty(format_money(flatten(pos(filter(object)))))
   end
 
   # TODO fix omise-ruby to allow extra attrs in Omise::Resource#get
@@ -76,7 +81,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).get
-    pretty(flatten(pos(filter(object))))
+    pretty(format_money(flatten(pos(filter(object)))))
   end
 
   def patch(argv)
@@ -84,7 +89,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).patch(attrs)
-    pretty(flatten(pos(filter(object))))
+    pretty(format_money(flatten(pos(filter(object)))))
   end
 
   def delete(argv)
@@ -92,7 +97,7 @@ the following commands are available:
     args, attrs = extract_args_and_attrs(argv)
 
     object = resource(path).delete(attrs)
-    pretty(flatten(pos(filter(object))))
+    pretty(format_money(flatten(pos(filter(object)))))
   end
 
   def exec(argv)
@@ -180,6 +185,21 @@ BANNER
     end
   end
 
+  def format_money(object)
+    amount_subunits = begin
+      Integer(object[amount_column])
+    rescue
+      raise "can't convert '#{amount_column}' to integer"
+    end
+
+    if amount_subunits
+      currency = object["currency"] || nil
+      Money.new(amount_subunits, currency).format(symbol: false, with_currency: currency)
+    else
+      object
+    end
+  end
+
   def position
     @options[:position]
   end
@@ -194,5 +214,9 @@ BANNER
 
   def keys
     @options[:keys]
+  end
+
+  def amount_column
+    @options[:amount_column]
   end
 end
