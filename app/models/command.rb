@@ -38,12 +38,12 @@ the following commands are available:
           options[:keys] = keys
         end
 
-        p.on("-n", "--newest", "return the newest element of the list") do
-          options[:position] = :newest
+        p.on("--first", "return the first element of the list") do
+          options[:position] = :first
         end
 
-        p.on("-o", "--oldest", "return the oldest element of the list") do
-          options[:position] = :oldest
+        p.on("--last", "return the last element of the list") do
+          options[:position] = :last
         end
 
         p.on("-i INDEX", Integer, "take the element at position INDEX of the list (0 based)") do |index|
@@ -122,8 +122,8 @@ BANNER
 
     if object && object.is_a?(Array)
       case position
-      when :newest then object.first
-      when :oldest then object.last
+      when :first then object.first
+      when :last then object.last
       else
         object[position]
       end
