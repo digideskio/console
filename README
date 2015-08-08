@@ -5,7 +5,7 @@ the following commands are available:
     create an object:        post   /path [key=value,...] [options]
     retrieve an object:      get    /path [key=value,...] [options]
     update an object:        patch  /path [key=value,...] [options]
-    destroy and object:      delete /path [key=value,...] [options]
+    destroy an object:       delete /path [key=value,...] [options]
     execute a local command: exec local-command(arg, ...)
 
 common options:
@@ -15,4 +15,3 @@ common options:
         --last                       return the last element of the list
     -i INDEX                         take the element at position INDEX of the list (0 based)
     -m, --money KEY                  converts KEY to money
-

@@ -24,7 +24,7 @@ the following commands are available:
     create an object:        post   /path [key=value,...] [options]
     retrieve an object:      get    /path [key=value,...] [options]
     update an object:        patch  /path [key=value,...] [options]
-    destroy and object:      delete /path [key=value,...] [options]
+    destroy an object:       delete /path [key=value,...] [options]
     execute a local command: exec local-command(arg, ...)
         BANNER
 
