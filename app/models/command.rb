@@ -120,6 +120,7 @@ BANNER
   attr_reader :key
 
   def resource(path)
+    path = "/#{path}" if path[0] != "/"
     Omise::Resource.new(Omise.api_url, path, key)
   end
 

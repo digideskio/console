@@ -35,7 +35,7 @@ $(document).on "ready", ->
     buffer.append(content)
 
   appendCommandToBuffer = ->
-    history_position = -1
+    historyPosition = -1
     history.unshift(command.val())
     appendToBuffer("<pre><span class='prompt'>#{prompt}</span> #{command.val()}</pre>")
     command.val("")
